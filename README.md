@@ -40,7 +40,7 @@ Akbank ve patikadev tarafından gerçekleştirilen Asp.Net eğitimi sürecinde v
 - `PATCH /BankAccaunts/{id}`:
 
   Belirli bir banka hesabını kısmi olarak güncellemek için bu method'u kullanın. `id` parametresi olarak güncellenecek hesabın ID'sini belirtin. Güncellemeleri JSON Patch formatında gönderin. 
-  - Verilen ID tegerine göre tek özelligin patch edilmesi
+    - Verilen ID tegerine göre tek özelligin patch edilmesi
     ```javascript
     {
         "path": "/accountHolder",
