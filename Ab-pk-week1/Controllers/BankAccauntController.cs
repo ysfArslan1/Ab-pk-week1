@@ -15,6 +15,7 @@ namespace Ab_pk_week1.Controllers
 
         public BankAccauntController(BankDbContext bankDbContext)
         {
+            // Database işlemlerinin yapılması için tanımlanan BankDbContext nesnesi
             this.dbcontext = bankDbContext;
         }
 
