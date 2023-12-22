@@ -1,35 +1,29 @@
+using Ab_pk_week1.DBOperations;
+using System.Reflection.PortableExecutable;
+
 namespace Ab_pk_week1
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            //CreateHostBuilder(args).Build().Run(); // inmemory olmadan
 
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            var host = CreateHostBuilder(args).Build();
+            // in memory de baslangýc olarak database kontrolu ve veri ekleme için kullanýlýyor
+            using (var scope = host.Services.CreateScope())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                var services = scope.ServiceProvider;
+                DataGenerator.Initialize(services);
             }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
-
-            app.Run();
+            host.Run();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                webBuilder.UseStartup<Startup>();
+            });
     }
 }
