@@ -3,9 +3,11 @@ using Ab_pk_week1.Models;
 
 namespace Ab_pk_week1.DBOperations;
 
+//Proje başlarken örnek verilerin yüklenmesi.
+//Çok sayıda olan verilen otomatik olarak yüklenmesi için kullanılan sınıf.
 public class DataGenerator
 {
-    //inmemory de data üretmek içinkullanılıyor // program.cs de çalıştırılıyor
+
     public static void Initialize(IServiceProvider serviceProvider)
     {
         using (var content = new BankDbContext(serviceProvider.GetRequiredService<DbContextOptions<BankDbContext>>())) 

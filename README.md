@@ -1,61 +1,88 @@
+# Akbank .Net Bootcamp Cohort Ödevi 1
 
-# Bank Account Management API
+Akbank ve patikadev tarafından gerçekleştirilen Asp.Net eğitimi sürecinde verilen cohort üzerinden verilen ilk hafta ödevi. 
 
-This API allows you to perform basic CRUD (Create, Read, Update, Delete) operations on bank accounts.
+## Bizden istenilenler:
+ -  Rest standartlarna uygun olmalıdır. 
+ -  GET,POST,PUT,DELETE,PATCH methodları kullanılmalıdır. 
+ -  Http status code standartlarına uyulmalıdır. Error Handler ile 500, 400, 404, 200, 201 hatalarının standart format ile verilmesi 
+ -  Modellerde zorunlu alanların kontrolü yapılmalıdır. 
+ -  Routing kullanılmalıdır. 
+ -  Model binding işlemleri hem body den hemde query den yapılacak şekilde örneklendirilmelidir. Bonus: 
+ -  Standart crud işlemlerine ek olarak, listeleme ve sıralama işlevleride eklenmelidir. Örn: /api/products/list?name=abc 
 
-## How to Use
+### Kullanılan Metotlar
 
-This API enables operations on bank accounts. The following examples provide basic information on how to use the API.
+- `GET /BankAccaunts` :
 
-### Operations on Bank Accounts
-
-- **Get All Bank Accounts**
-
-  `GET /BankAccaunts`
+  Tüm banka hesaplarını almak için kullanılan method.
   
-  Use this endpoint to get all bank accounts.
-  
-- **Get Accounts by Holder Name**
+- `GET /AccountsByHolder/?holder={holderName}`:
 
-  `GET /AccountsByHolder/?holder={holderName}`
-  
-  Use this endpoint to get accounts belonging to a specific account holder. Specify the account holder's name as the `holderName` parameter.
+  Belirli bir hesap sahibine ait hesapları almak için bu method'u kullanın. `holderName` parametresi olarak hesap sahibinin adını belirtin.
 
-- **Get a Specific Bank Account**
+- `GET /BankAccaunts/{id}`:
 
-  `GET /BankAccaunts/{id}`
-  
-  Use this endpoint to get a specific bank account. Specify the account ID as the `id` parameter.
+  Belirli bir banka hesabını almak için bu method'u kullanın. `id` parametresi olarak hesap ID'sini belirtin.
 
-- **Create a New Bank Account**
+- `POST /BankAccaunts`:
 
-  `POST /BankAccaunts`
-  
-  Use this endpoint to create a new bank account. Send the new account details in JSON format.
+  Yeni bir banka hesabı oluşturmak için bu method'u kullanın. JSON formatında yeni hesap bilgilerini gönderin.
 
-- **Update a Bank Account**
+- `PUT /BankAccaunts/{id}`:
 
-  `PUT /BankAccaunts/{id}`
-  
-  Use this endpoint to update a specific bank account. Specify the ID of the account to be updated as the `id` parameter. Send the updated details in JSON format.
+  Belirli bir banka hesabını güncellemek için bu method'u kullanın. `id` parametresi olarak güncellenecek hesabın ID'sini belirtin. JSON formatında güncel bilgileri gönderin.
 
-- **Delete a Bank Account**
+- `DELETE /BankAccaunts/{id}`:
 
-  `DELETE /BankAccaunts/{id}`
-  
-  Use this endpoint to delete a specific bank account. Specify the ID of the account to be deleted as the `id` parameter.
+  Belirli bir banka hesabını silmek için bu method'u kullanın. `id` parametresi olarak silinecek hesabın ID'sini belirtin.
 
-- **Partially Update a Bank Account (PATCH)**
+- `PATCH /BankAccaunts/{id}`:
 
-  `PATCH /BankAccaunts/{id}`
-  
-  Use this endpoint to partially update a specific bank account. Specify the ID of the account to be updated as the `id` parameter. Send updates in JSON Patch format. (An example JSON Patch data can be found in the README)
+  Belirli bir banka hesabını kısmi olarak güncellemek için bu method'u kullanın. `id` parametresi olarak güncellenecek hesabın ID'sini belirtin. Güncellemeleri JSON Patch formatında gönderin. 
+  - Verilen ID tegerine göre tek özelligin patch edilmesi
+    ```javascript
+    {
+        "path": "/accountHolder",
+        "op": "replace",
+        "value": "Mehmet C. patched"
+    }
+    ```
+    - Verilen ID tegerine göre birden çok özelligin patch edilmesi
+    ```javascript
+    [
+        {
+            "path": "/accountHolder",
+            "op": "replace",
+            "value": "Mehmet C. patched"
+        },
+        {
+            "path": "/accountBalance",
+            "op": "replace",
+            "value": 34567
+        }
+    ]
+    ```
 
-## Error Handling
+## Hata Durumları
 
-The API handles various error scenarios as follows:
+- `404 Not Found`: İstenen kaynak bulunamadı.
+- `400 Bad Request`: İstek geçersiz veya eksik bilgi içeriyor.
+- `500 Internal Server Error`: Sunucu hatası nedeniyle işlem gerçekleştirilemedi.
 
-- `404 Not Found`: The requested resource was not found.
-- `400 Bad Request`: The request contains invalid or missing information.
-- `500 Internal Server Error`: The operation couldn't be completed due to a server error.
+## Diger durumlar
+- `200 OK`: Yapılan istek başarılı.
+- `201 Created`: Kayıt başarılı.
+
+## Database işlemleri ve Kullanılan dosyalar:
+Bu projede database ve fonksiyonlarının oluşturulması için **Microsoft.EntityFrameworkCore.InMemory**, **Microsoft.EntityFrameworkCore**paketleri  kullanıldı.  
+
+### BankDbContext :
+Bu Dosya BankAccaunt sınıfının Database eklenmesini ve oluşturulan fonksiyonlarla table üzerinde işlem yapılmasını sağlar.
+
+### DataGenerator :
+-   Proje başlarken örnek verilerin yüklenmesi.
+-   Çok sayıda olan verilen otomatik olarak yüklenmesi için kullanılan sınıf.
+
+
 
